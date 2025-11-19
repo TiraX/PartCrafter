@@ -15,10 +15,10 @@ from einops import repeat
 from torch_cluster import fps
 from tqdm import tqdm
 
-from ..attention_processor import FusedTripoSGAttnProcessor2_0, TripoSGAttnProcessor2_0, FlashTripo2AttnProcessor2_0
-from ..embeddings import FrequencyPositionalEmbedding
-from ..transformers.partcrafter_transformer import DiTBlock
-from .vae import DiagonalGaussianDistribution
+from src.models.attention_processor import FusedTripoSGAttnProcessor2_0, TripoSGAttnProcessor2_0, FlashTripo2AttnProcessor2_0
+from src.models.embeddings import FrequencyPositionalEmbedding
+from src.models.transformers.partcrafter_transformer import DiTBlock
+from src.models.autoencoders.vae import DiagonalGaussianDistribution
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 

@@ -1,0 +1,24 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+	
+		{
+			"name": "Python Debugger: Current File with Arguments",
+			"type": "debugpy",
+			"request": "launch",
+			"program": "${file}",
+			"cwd": "${workspaceFolder}",
+			"env": {
+				"PYTHONPATH": "${workspaceFolder}"
+			},
+			"console": "integratedTerminal",
+			"args": ["--image_path", "assets/images/np3_2f6ab901c5a84ed6bbdf85a67b22a2ee.png",
+				"--num_parts", "6",
+				"--tag", "robot"
+			]
+		}
+	]
+}
