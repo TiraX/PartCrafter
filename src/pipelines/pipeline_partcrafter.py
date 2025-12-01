@@ -217,6 +217,8 @@ class PartCrafterPipeline(DiffusionPipeline, TransformerDiffusionMixin):
         image_embeds, negative_image_embeds = self.encode_image(
             image, device, num_images_per_prompt
         )
+        print(f"Image embeds shape: {image_embeds.shape}")
+        print(f"Negative image embeds shape: {negative_image_embeds.shape}")
 
         if self.do_classifier_free_guidance:
             image_embeds = torch.cat([negative_image_embeds, image_embeds], dim=0)
@@ -241,6 +243,7 @@ class PartCrafterPipeline(DiffusionPipeline, TransformerDiffusionMixin):
             generator,
             latents,
         )
+        print(f"Latents shape: {latents.shape}")
 
         # 6. Denoising loop
         self.set_progress_bar_config(
@@ -259,8 +262,10 @@ class PartCrafterPipeline(DiffusionPipeline, TransformerDiffusionMixin):
                     if self.do_classifier_free_guidance
                     else latents
                 )
+                print(f"Latent model input shape: {latent_model_input.shape}")
                 # broadcast to batch dimension in a way that's compatible with ONNX/Core ML
                 timestep = t.expand(latent_model_input.shape[0])
+                print(f"Timestep shape: {timestep.shape}")
 
                 noise_pred = self.transformer(
                     latent_model_input,
@@ -269,6 +274,7 @@ class PartCrafterPipeline(DiffusionPipeline, TransformerDiffusionMixin):
                     attention_kwargs=attention_kwargs,
                     return_dict=False,
                 )[0].to(dtype)
+                print(f"Noise pred shape: {noise_pred.shape}")
 
                 # perform guidance
                 if self.do_classifier_free_guidance:
@@ -282,6 +288,7 @@ class PartCrafterPipeline(DiffusionPipeline, TransformerDiffusionMixin):
                 latents = self.scheduler.step(
                     noise_pred, t, latents, return_dict=False
                 )[0]
+                print(f"Latents shape: {latents.shape}")
 
                 if latents.dtype != latents_dtype:
                     if torch.backends.mps.is_available():
